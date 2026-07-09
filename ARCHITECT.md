@@ -54,6 +54,7 @@
     - Ví dụ: `http://localhost:3000/boss/boss_1`
   - [POST] http://localhost:3000/rewards/claim
     - Nhận phần thưởng sau khi tiêu diệt boss (HP = 0), dựa trên tỷ lệ sát thương đóng góp.
+    - Điểm thưởng sẽ là % sát thương gây lên boss nhân 1000 và làm tròn xuống.
     - Body:
     ```json
     {
