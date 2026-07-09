@@ -15,4 +15,5 @@ export const config = {
   },
   bossDamageConsumerOffsetId:
     process.env.BOSS_DAMAGE_CONSUMER_OFFSET_ID || 'boss-damage-0',
+  logLevel: process.env.LOG_LEVEL || 'info',
 };

@@ -43,7 +43,7 @@ const main = async () => {
   const eventEmiter = new EventEmitter();
 
   // setup logger
-  const logger = new ConsoleLogger();
+  const logger = new ConsoleLogger(config.logLevel);
 
   const client = await pool.connect();
   client.release();
