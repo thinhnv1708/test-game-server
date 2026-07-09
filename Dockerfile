@@ -30,11 +30,16 @@ RUN npm ci --only=production
 # Copy built files from builder stage
 COPY --from=builder /usr/src/app/dist ./dist
 
+# Copy drizzle migrations folder and config
+COPY drizzle ./drizzle
+COPY drizzle.config.ts ./drizzle.config.ts
+
 # Expose port 3000
 EXPOSE 3000
 
 # Set environment to production
 ENV NODE_ENV=production
 
-# Run the app
-CMD ["node", "dist/server.js"]
+# Run migrations and start the app
+CMD ["sh", "-c", "npm run db:migrate && node dist/server.js"]
+

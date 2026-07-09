@@ -32,6 +32,24 @@ services:
   #   depends_on:
   #     - kafka
 
+  init-kafka:
+    image: apache/kafka:latest
+    container_name: init-kafka
+    depends_on:
+      - kafka
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: |
+      "
+      # Wait for Kafka to be ready
+      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:29092 --list
+
+      echo 'Creating kafka topics...'
+      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:29092 --create --if-not-exists --topic boss-damage --replication-factor 1 --partitions 1
+
+      echo 'Successfully created topics:'
+      /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:29092 --list
+      "
+
   postgres:
     image: postgres:15-alpine
     container_name: postgres-db
@@ -43,6 +61,11 @@ services:
       POSTGRES_DB: game_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d game_db']
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   app:
     build:
@@ -57,8 +80,12 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/game_db
       - KAFKA_BROKERS=kafka:29092
     depends_on:
-      - postgres
-      - kafka
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      init-kafka:
+        condition: service_completed_successfully
 
 volumes:
   postgres_data:
