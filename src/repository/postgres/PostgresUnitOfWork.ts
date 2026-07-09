@@ -3,14 +3,17 @@ import { IUnitOfWork } from '../interface/IUnitOfWork';
 import { IBossRepository } from '../interface/IBossRepository';
 import { IContributionRepository } from '../interface/IContributionRepository';
 import { IConsumerOffsetRepository } from '../interface/IConsumerOffsetRepository';
+import { IRewardClaimRepository } from '../interface/IRewardClaimRepository';
 import { PostgresBossRepository } from './PostgresBossRepository';
 import { PostgresContributionRepository } from './PostgresContributionRepository';
 import { PostgresConsumerOffsetRepository } from './PostgresConsumerOffsetRepository';
+import { PostgresRewardClaimRepository } from './PostgresRewardClaimRepository';
 
 export class PostgresUnitOfWork implements IUnitOfWork {
   public bossRepository: IBossRepository;
   public contributionRepository: IContributionRepository;
   public consumerOffsetRepository: IConsumerOffsetRepository;
+  public rewardClaimRepository: IRewardClaimRepository;
 
   constructor(private client: typeof db = db) {
     this.bossRepository = new PostgresBossRepository(this.client);
@@ -18,6 +21,9 @@ export class PostgresUnitOfWork implements IUnitOfWork {
       this.client,
     );
     this.consumerOffsetRepository = new PostgresConsumerOffsetRepository(
+      this.client,
+    );
+    this.rewardClaimRepository = new PostgresRewardClaimRepository(
       this.client,
     );
   }
@@ -37,3 +43,4 @@ export class PostgresUnitOfWork implements IUnitOfWork {
     });
   }
 }
+

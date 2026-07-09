@@ -161,6 +161,11 @@ const main = async () => {
   const leaderboardService = new LeaderboardService(leaderboardCacheRepository);
   const leaderboardController = new LeaderboardController(leaderboardService);
 
+  const { RewardClaimService } = require('./service/RewardClaimService');
+  const { RewardClaimController } = require('./controller/RewardClaimController');
+  const rewardClaimService = new RewardClaimService(logger, unitOfWork);
+  const rewardClaimController = new RewardClaimController(rewardClaimService);
+
   const expressApp = express();
   const httpServer = createServer(expressApp);
 
@@ -172,9 +177,14 @@ const main = async () => {
     bossDamageController.damage(req, res),
   );
 
+  expressApp.post('/rewards/claim', (req, res) =>
+    rewardClaimController.claim(req, res),
+  );
+
   expressApp.get('/boss/:bossId', (req, res) =>
     leaderboardController.getLeaderboard(req, res),
   );
+
 
   // cleanup on sigint
   process.on('SIGINT', async () => {

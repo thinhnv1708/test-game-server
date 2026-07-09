@@ -20,6 +20,7 @@ CREATE TABLE "reward_claims" (
 	"player_id" text NOT NULL,
 	"boss_id" text NOT NULL,
 	"timestamp" bigint NOT NULL,
+	"amount" bigint NOT NULL,
 	CONSTRAINT "reward_claims_pk" PRIMARY KEY("player_id","boss_id")
 );
 --> statement-breakpoint

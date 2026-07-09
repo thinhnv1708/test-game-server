@@ -26,6 +26,7 @@ export class BossGameplayService implements IBossGameplayService {
     const { playerId, bossId, damageAmount } = message;
     const boss = this.bossCacheRepository.getBoss(bossId);
 
+    this.consumerOffsetCacheRepository.setOffset(consumerOffset);
     if (!boss) {
       return;
     }
@@ -52,8 +53,5 @@ export class BossGameplayService implements IBossGameplayService {
     contribution.damage += actualDamageAmount;
 
     this.contributionCacheRepository.setPlayerContribution(contribution);
-    console.log('consumerOffset', consumerOffset);
-
-    this.consumerOffsetCacheRepository.setOffset(consumerOffset);
   }
 }

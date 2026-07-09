@@ -7,6 +7,7 @@ export const rewardClaims = pgTable('reward_claims', {
     .notNull()
     .references(() => bosses.id),
   timestamp: bigint('timestamp', { mode: 'number' }).notNull(),
+  amount: bigint('amount', { mode: 'number' }).notNull(),
 }, (table) => [
   primaryKey({ name: 'reward_claims_pk', columns: [table.playerId, table.bossId] }),
   index('reward_claims_player_id_idx').on(table.playerId),
