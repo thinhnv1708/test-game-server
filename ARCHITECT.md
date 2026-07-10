@@ -39,6 +39,10 @@
 
 - Bước 1: Tạo file .env, copy toàn bộ nội dung từ .env.example vào .env
 - Bước 2: Chạy lệnh docker compose --env-file .env up -d để start server.
+- Tôi đã cài đặt để tự động chạy migrate, tạo database và các bảng dữ liệu.
+- Tôi đã tạo sẵn 2 boss
+  - Boss 1 có ID là boss_1 và có lượng HP 100,000,000
+  - Boss 2 có ID là boss_2 và có lượng HP 100,000,000
 - Sau khi server được khởi chạy, có các api như sau:
   - [POST] http://localhost:3000/damage
     Body:
